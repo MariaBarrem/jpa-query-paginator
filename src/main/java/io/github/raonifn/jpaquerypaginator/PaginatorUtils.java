@@ -8,7 +8,6 @@ abstract class PaginatorUtils {
     public static String mountCountQuery(String queryString) {
         String fromQuery = removeOrderBy(queryString).trim();
 
-
         //String patternString = "(^\\s*select distinct ([\\w.\\d*]+))?(^|.*\\s)(from\\s+.*)";
         String patternString = "(^select\\s+(distinct\\s+(new){0,1}([\\w.\\d*]+)){0,1}(.*?)(\\s+|^)){0,1}(from\\s+.*)";
 
@@ -20,17 +19,19 @@ abstract class PaginatorUtils {
             throw new RuntimeException("Invalid query: " + queryString);
         }
 
-        fromQuery = matcher.group(7);
+//        fromQuery = matcher.group(7);
 
-        String distinct = matcher.group(4);
-        if("new".equals(distinct)){
-        	distinct+=matcher.group(5);
-        }
-        if (distinct != null) {
-            return "SELECT count(DISTINCT " + distinct + ") " + fromQuery;
-        }
+//        String distinct = matcher.group(4);
+//        if("new".equals(distinct)){
+//        	distinct+=matcher.group(5);
+//        }
 
-        return "SELECT count(*) " + fromQuery;
+//        if (distinct != null) {
+//            return "SELECT count(DISTINCT " + distinct + ") " + fromQuery;
+//        }
+//        return "SELECT count(*) " + fromQuery;
+
+        return "SELECT count(*) FROM (" + fromQuery + ")";
     }
 
     private static String removeOrderBy(String queryString) {
